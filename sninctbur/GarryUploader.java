@@ -84,9 +84,11 @@ public class GarryUploader extends JFrame implements GarryUploaderShared {
 		add(main);
 		
 		
-		if(input != null)
+		if(input != null) {
 			properties.load(input);
-		else {
+			if(properties.getProperty("GmPath") == null || properties.getProperty("AddonSaved") == null || properties.getProperty("ImgSaved") == null)
+				remakeProperties();
+		} else {
 //			PrintWriter propsWrite = new PrintWriter("internal.properties","UTF-8");
 //			propsWrite.println("GmPath=C:\\\\Program Files (x86)\\\\Steam\\\\SteamApps\\\\common\\\\GarrysMod\\\\bin\\\\gmpublish.exe");
 //			propsWrite.close();
@@ -96,7 +98,7 @@ public class GarryUploader extends JFrame implements GarryUploaderShared {
 		try {
 			gmpublish = new File(properties.getProperty("GmPath") + "\\bin\\gmpublish.exe");
 		}catch(Exception e){
-			if(properties.getProperty("GmPath") == null) {
+			if(properties.getProperty("GmPath") == null || properties.getProperty("AddonSaved") == null || properties.getProperty("ImgSaved") == null) {
 				remakeProperties();
 			}
 			
@@ -224,7 +226,7 @@ public class GarryUploader extends JFrame implements GarryUploaderShared {
 		//c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.insets = new Insets(-100,-200,0,0);
+		c.insets = new Insets(-100,-150,0,0);
 		add(settingsButton,c);
 		
 		c.gridx = 2;
@@ -268,3 +270,8 @@ public class GarryUploader extends JFrame implements GarryUploaderShared {
 //		new GarryUploader();
 //	}
 }
+
+/* Changelog 2/9:
+ * UI adjustment
+ * Fixed a bug where a corrupt .properties file can break the code
+*/
